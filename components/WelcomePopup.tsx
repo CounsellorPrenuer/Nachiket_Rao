@@ -23,7 +23,7 @@ export default function WelcomePopup({ title, content }: WelcomePopupProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full p-8 relative animate-fade-in">
+      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full p-6 md:p-8 relative animate-fade-in max-h-[90vh] overflow-y-auto">
         <button
           onClick={() => setIsOpen(false)}
           className="absolute top-4 right-4 text-3xl text-gray-500 hover:text-primary transition-colors"
