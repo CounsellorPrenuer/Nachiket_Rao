@@ -12,11 +12,11 @@ export default function WelcomePopup({ title, content }: WelcomePopupProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem('hasVisited')
-    if (!hasVisited) {
-      setIsOpen(true)
-      localStorage.setItem('hasVisited', 'true')
-    }
+    // const hasVisited = localStorage.getItem('hasVisited')
+    // if (!hasVisited) {
+    setIsOpen(true)
+    //   localStorage.setItem('hasVisited', 'true')
+    // }
   }, [])
 
   if (!isOpen) return null
