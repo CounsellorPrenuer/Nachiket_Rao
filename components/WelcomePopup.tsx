@@ -9,7 +9,7 @@ interface WelcomePopupProps {
 }
 
 export default function WelcomePopup({ title, content }: WelcomePopupProps) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   useEffect(() => {
     // const hasVisited = localStorage.getItem('hasVisited')
