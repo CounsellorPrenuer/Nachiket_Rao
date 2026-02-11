@@ -116,4 +116,4 @@ export default async function Home() {
 }
 
 // Enable static generation
-export const revalidate = 0 // Set to 60 for ISR (revalidate every 60 seconds)
+
