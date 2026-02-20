@@ -12,8 +12,8 @@ const config: Config = {
         primary: '#00137a',
       },
       fontFamily: {
-        heading: ['Magnolia Script', 'cursive'],
-        body: ['Anaktoria', 'Kaisei Decol', 'serif'],
+        heading: ['Anaktoria', 'serif'],
+        body: ['Anaktoria', 'serif'],
       },
     },
   },

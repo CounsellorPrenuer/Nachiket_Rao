@@ -17,10 +17,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="text-primary space-y-6">
             <RichText content={about.content} />
-            <div className="bg-white bg-opacity-70 p-6 rounded-lg shadow-md mt-8">
-              <h3 className="text-2xl font-heading text-primary mb-4">My Mission</h3>
-              <p className="text-lg">{about.mission}</p>
-            </div>
+
           </div>
           <div className="flex justify-center">
             {about.profileImage && (

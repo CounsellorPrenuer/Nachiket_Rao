@@ -8,6 +8,9 @@ import {
   MythFact,
   Package,
   ContactInfo,
+  Newsletter,
+  Testimonial,
+  IndividualHealing,
 } from '@/types/sanity'
 import WelcomePopup from '@/components/WelcomePopup'
 import HeroSection from '@/components/HeroSection'
@@ -17,9 +20,12 @@ import WhyChooseSection from '@/components/WhyChooseSection'
 import ServicesGrid from '@/components/ServicesGrid'
 import MythsFactsSection from '@/components/MythsFactsSection'
 import PackagesSection from '@/components/PackagesSection'
+import IndividualHealingSection from '@/components/IndividualHealingSection'
 import ContactSection from '@/components/ContactSection'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import NewsletterSection from '@/components/NewsletterSection'
+import TestimonialSection from '@/components/TestimonialSection'
 
 async function getPageData() {
   const [
@@ -31,6 +37,10 @@ async function getPageData() {
     mythsFacts,
     packages,
     contactInfo,
+    newsletter,
+    testimonials,
+    otherPackages,
+    individualHealing,
   ] = await Promise.all([
     client.fetch<Settings>(`*[_type == "settings"][0]`),
     client.fetch<About>(`*[_type == "about"][0]`),
@@ -38,16 +48,20 @@ async function getPageData() {
     client.fetch<WhyChoose>(`*[_type == "whyChoose"][0]`),
     client.fetch<Service[]>(`*[_type == "service"] | order(_createdAt asc)`),
     client.fetch<MythFact[]>(`*[_type == "mythFact"] | order(_createdAt asc)`),
-    client.fetch<Package[]>(`*[_type == "package"] | order(
-      select(
-        name == "Foundation Healing Package" => 0,
-        name == "Integrative Healing Package" => 1,
-        name == "Complete Inner Healing Journey" => 2,
-        3
-      ) asc,
-      _createdAt asc
-    )`),
+    client.fetch<Package[]>(`*[_type == "package" && (price match "450*" || price match "600*" || price match "1200*")] | order(displayOrder asc)`),
     client.fetch<ContactInfo>(`*[_type == "contactInfo"][0]`),
+    client.fetch<Newsletter>(`*[_type == "newsletter"][0]`),
+    client.fetch<Testimonial[]>(`*[_type == "testimonial"] | order(order asc) {
+      ...,
+      video {
+        asset-> {
+          _ref,
+          url
+        }
+      }
+    }`),
+    client.fetch<Package[]>(`*[_type == "package" && !(price match "450*" || price match "600*" || price match "1200*")] | order(displayOrder asc)`),
+    client.fetch<IndividualHealing[]>(`*[_type == "individualHealing"] | order(displayOrder asc)`),
   ])
 
   return {
@@ -59,6 +73,10 @@ async function getPageData() {
     mythsFacts,
     packages,
     contactInfo,
+    newsletter,
+    testimonials,
+    otherPackages,
+    individualHealing,
   }
 }
 
@@ -91,12 +109,12 @@ export default async function Home() {
 
       {data.settings && (
         <WelcomePopup
-          title={data.settings.welcomeTitle}
+          title={data.settings.welcomeTitle || ''}
           content={data.settings.welcomeContent}
         />
       )}
 
-      {data.settings && <HeroSection settings={data.settings} />}
+      {data.settings && <HeroSection settings={data.settings} mission={data.about?.mission} />}
 
       {data.about && <AboutSection about={data.about} />}
 
@@ -104,19 +122,44 @@ export default async function Home() {
 
       {data.whyChoose && <WhyChooseSection whyChoose={data.whyChoose} />}
 
-      {data.services && data.services.length > 0 && (
-        <ServicesGrid services={data.services} />
+      {data.packages && data.packages.length > 0 && (
+        <PackagesSection packages={data.packages} />
+      )}
+
+      {data.individualHealing && data.individualHealing.length > 0 && (
+        <IndividualHealingSection packages={data.individualHealing} />
+      )}
+
+      {data.services && (
+        <ServicesGrid
+          services={[
+            ...(data.services || []),
+            ...(data.otherPackages || []).map(pkg => ({
+              _id: pkg._id,
+              title: pkg.name,
+              description: pkg.description || [],
+              duration: pkg.duration,
+              price: pkg.price,
+              // Optional: You can map other fields if needed, e.g. includes or price to description
+            } as Service))
+          ]}
+        />
       )}
 
       {data.mythsFacts && data.mythsFacts.length > 0 && (
         <MythsFactsSection mythsFacts={data.mythsFacts} />
       )}
 
-      {data.packages && data.packages.length > 0 && (
-        <PackagesSection packages={data.packages} />
+
+
+
+      {data.testimonials && data.testimonials.length > 0 && (
+        <TestimonialSection testimonials={data.testimonials} />
       )}
 
       {data.contactInfo && <ContactSection contactInfo={data.contactInfo} settings={data.settings} />}
+
+      {data.newsletter && <NewsletterSection data={data.newsletter} />}
 
       {data.settings && <Footer settings={data.settings} />}
     </main>
