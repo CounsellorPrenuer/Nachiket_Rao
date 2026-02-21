@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity'
+import { client } from '../lib/sanity'
 import {
   Settings,
   About,
@@ -11,21 +11,21 @@ import {
   Newsletter,
   Testimonial,
   IndividualHealing,
-} from '@/types/sanity'
-import WelcomePopup from '@/components/WelcomePopup'
-import HeroSection from '@/components/HeroSection'
-import AboutSection from '@/components/AboutSection'
-import ApproachSection from '@/components/ApproachSection'
-import WhyChooseSection from '@/components/WhyChooseSection'
-import ServicesGrid from '@/components/ServicesGrid'
-import MythsFactsSection from '@/components/MythsFactsSection'
-import PackagesSection from '@/components/PackagesSection'
-import IndividualHealingSection from '@/components/IndividualHealingSection'
-import ContactSection from '@/components/ContactSection'
-import Footer from '@/components/Footer'
-import Navbar from '@/components/Navbar'
-import NewsletterSection from '@/components/NewsletterSection'
-import TestimonialSection from '@/components/TestimonialSection'
+} from '../types/sanity'
+import WelcomePopup from '../components/WelcomePopup'
+import HeroSection from '../components/HeroSection'
+import AboutSection from '../components/AboutSection'
+import ApproachSection from '../components/ApproachSection'
+import WhyChooseSection from '../components/WhyChooseSection'
+import ServicesGrid from '../components/ServicesGrid'
+import MythsFactsSection from '../components/MythsFactsSection'
+import PackagesSection from '../components/PackagesSection'
+import IndividualHealingSection from '../components/IndividualHealingSection'
+import ContactSection from '../components/ContactSection'
+import Footer from '../components/Footer'
+import Navbar from '../components/Navbar'
+import NewsletterSection from '../components/NewsletterSection'
+import TestimonialSection from '../components/TestimonialSection'
 
 async function getPageData() {
   const [
@@ -134,7 +134,7 @@ export default async function Home() {
         <ServicesGrid
           services={[
             ...(data.services || []),
-            ...(data.otherPackages || []).map(pkg => ({
+            ...(data.otherPackages || []).map((pkg: Package) => ({
               _id: pkg._id,
               title: pkg.name,
               description: pkg.description || [],
