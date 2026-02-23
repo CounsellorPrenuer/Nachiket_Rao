@@ -164,3 +164,5 @@ For issues or questions:
 ## License
 
 MIT
+
+<!-- ci-smoke-test -->
