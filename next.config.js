@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
+const isGitHubPages = process.env.GITHUB_PAGES === 'true'
+
 const nextConfig = {
-  // Add basePath for GitHub Pages
-  // Add basePath for GitHub Pages only when building for production
-  basePath: process.env.NODE_ENV === 'production' ? '/Nachiket_Rao' : '',
+  basePath: isGitHubPages ? '/Nachiket_Rao' : '',
+  assetPrefix: isGitHubPages ? '/Nachiket_Rao/' : undefined,
   trailingSlash: true,
   images: {
     unoptimized: true,
