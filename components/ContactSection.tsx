@@ -19,7 +19,6 @@ export default function ContactSection({ contactInfo, settings }: ContactSection
 
           {/* Contact Info */}
           <div className="bg-white rounded-lg shadow-xl p-8 md:p-12 flex flex-col justify-center">
-
             <div className="space-y-8">
               <div className="flex items-start">
                 <div className="text-3xl mr-4">📧</div>
@@ -54,6 +53,29 @@ export default function ContactSection({ contactInfo, settings }: ContactSection
                   </p>
                 </div>
               </div>
+              
+              {contactInfo.socialLinks && contactInfo.socialLinks.length > 0 && (
+                <div className="flex items-start">
+                  <div className="text-3xl mr-4">🔗</div>
+                  <div>
+                    <h3 className="font-semibold text-primary mb-1 text-lg">Connect With Me</h3>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                      {contactInfo.socialLinks.map((link, index) => (
+                        <a
+                          key={index}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:text-secondary transition-colors duration-200 text-base font-medium underline"
+                          title={link.platform}
+                        >
+                          {link.platform}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

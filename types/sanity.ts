@@ -1,10 +1,13 @@
 export interface Settings {
   websiteName?: string
   tagline?: string
+  healingModalitiesTitle?: string
   consultationCharge?: string
   consultationPrice?: string
   consultationPaymentUrl?: string
   calendlyLink?: string
+  backgroundColor?: string
+  sectionBackgroundColor?: string
   welcomeTitle?: string
   welcomeContent?: any
   logo?: any
@@ -18,6 +21,16 @@ export interface Settings {
     title: string
     link: string
   }>
+  footerSocialLinks?: Array<{
+    platform: string
+    url: string
+  }>
+  footerContactInfo?: {
+    email?: string
+    phone?: string
+    address?: string
+  }
+  footerText?: string
 }
 
 export interface About {
@@ -78,6 +91,11 @@ export interface ContactInfo {
   email: string
   phone: string
   address: string
+  socialLinks?: Array<{
+    platform: string
+    url: string
+    icon?: string
+  }>
 }
 
 export interface Newsletter {

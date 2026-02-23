@@ -12,9 +12,9 @@ export default function IndividualHealingSection({ packages }: IndividualHealing
                 <h2 className="text-5xl font-heading text-primary text-center mb-16">
                     Individual Healing Packages
                 </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="flex flex-wrap justify-center gap-8 mx-auto">
                     {packages.map((pkg) => (
-                        <div key={pkg._id} className="h-full">
+                        <div key={pkg._id} className="w-full max-w-md flex justify-center">
                             <ExpandableCard
                                 title={pkg.name}
                                 duration={pkg.duration}
