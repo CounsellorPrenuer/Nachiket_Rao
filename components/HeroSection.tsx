@@ -42,16 +42,7 @@ export default function HeroSection({ settings, mission }: HeroSectionProps) {
               Consultation: {settings.consultationCharge || 'USD 50'}
             </div>
           )}
-          {settings.calendlyLink && (
-            <a
-              href={settings.calendlyLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary text-white px-10 py-4 rounded-full text-xl font-bold hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              Book Consultation
-            </a>
-          )}
+
         </div>
       </div>
     </section>

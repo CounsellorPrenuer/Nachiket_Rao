@@ -87,14 +87,7 @@ export default function ExpandableCard({
             )}
             {(!description || description.length === 0) && <div className="flex-grow" />}
 
-            <div className="text-center mt-auto shrink-0">
-                <Link
-                    href={buttonLink}
-                    className="inline-block bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-md hover:shadow-lg"
-                >
-                    {buttonText}
-                </Link>
-            </div>
+
         </div>
     )
 }
