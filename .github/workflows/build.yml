@@ -1,23 +1,65 @@
-name: Build and Deploy
+name: Build Source and Publish Main
+
 on:
   push:
     branches:
-      - main
+      - source-code
+    paths-ignore:
+      - '_next/**'
+      - 'index.html'
+      - '404.html'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [sanity_update]
+
+permissions:
+  contents: write
+
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout source-code
         uses: actions/checkout@v4
+        with:
+          ref: source-code
+          fetch-depth: 0
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
+
       - name: Install Dependencies
         run: npm ci
-      - name: Build
+
+      - name: Build Static Site
         run: npm run build
         env:
+          GITHUB_PAGES: 'false'
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+
+      - name: Publish artifacts to main
+        run: |
+          git fetch origin main
+          git worktree add ../deploy-main origin/main
+
+          rm -rf ../deploy-main/_next
+          cp -R out/_next ../deploy-main/_next
+          cp out/index.html ../deploy-main/index.html
+          cp out/404.html ../deploy-main/404.html
+
+          cd ../deploy-main
+
+          if git diff --quiet; then
+            echo "No static changes to publish"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html 404.html _next
+          git commit -m "chore: publish static from source-code [skip ci]"
+          git push origin main
