@@ -42,6 +42,9 @@ jobs:
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
 
       - name: Publish artifacts to main
+        env:
+          PUBLISH_TOKEN: ${{ secrets.MAIN_PUSH_TOKEN }}
+          FALLBACK_TOKEN: ${{ github.token }}
         run: |
           git fetch origin main
           git worktree add ../deploy-main origin/main
@@ -62,4 +65,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add index.html 404.html _next
           git commit -m "chore: publish static from source-code [skip ci]"
-          git push origin main
+
+          TOKEN="$PUBLISH_TOKEN"
+          if [ -z "$TOKEN" ]; then
+            TOKEN="$FALLBACK_TOKEN"
+          fi
+
+          git pull --rebase origin main
+          git push "https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git" HEAD:main
